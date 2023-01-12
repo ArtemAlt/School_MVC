@@ -1,0 +1,9 @@
+spring:
+  mvc:
+    view:
+      suffix: .jsp
+      prefix: /view/
+server:
+  port: 8188
+  servlet:
+    context-path: /app
