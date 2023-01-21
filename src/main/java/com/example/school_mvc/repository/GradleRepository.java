@@ -10,7 +10,12 @@ import java.util.*;
 
 @Service
 public class GradleRepository {
-    HashMap<Student, List<Grade>> repository = new HashMap<>();
+    private HashMap<Student, List<Grade>> repository;
+
+    public GradleRepository() {
+        this.repository = new HashMap<>();
+        init();
+    }
 
 
     public HashMap<Student, List<Grade>> getAll() {
@@ -21,17 +26,72 @@ public class GradleRepository {
     }
 
     private void init() {
-        Student s1 = new Student(1, "Иванов", "Иван", "Иванович");
-        Student s2 = new Student(2, "Петров", "Пётр", "Петрович");
-        Student s3 = new Student(3, "Сидоров", "Сидор", "Сидорович");
+        for (int i = 1; i < 10; i++) {
+           Student s = new Student(i, "Name " + i, "SeName" + i, "SecondName" + i);
+           repository.put(s,generateFiveRandomGrades());
+        }
+    }
+
+    private List<Grade> generateFiveRandomGrades(){
+        List<Grade> result= new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            result.add(new Grade(getRandomGrade(), getRandomTheme(), getRandomDate()));
+        }
+        return result;
+    }
+
+    private Theme getRandomTheme() {
+        List<Theme> themes = getThemes();
+        Theme result;
+        int i = getRandomGrade();
+        switch (i) {
+            case 5:
+                result = themes.get(0);
+                break;
+            case 4:
+                result = themes.get(1);
+                break;
+            case 3:
+                result = themes.get(2);
+                break;
+            default:
+                result = new Theme("Theme default");
+        }
+        return result;
+    }
+
+    private LocalDate getRandomDate() {
+        LocalDate result;
+        int i = getRandomGrade();
+        switch (i) {
+            case 5:
+                result = LocalDate.now();
+                break;
+            case 4:
+                result = LocalDate.now().minusDays(1);
+                break;
+            case 3:
+                result = LocalDate.now().minusDays(2);
+                break;
+            default:
+                result = LocalDate.now().minusDays(3);
+        }
+        return result;
+    }
+
+    private List<Theme> getThemes() {
+        List<Theme> list = new ArrayList<>();
         Theme t1 = new Theme("Литература");
         Theme t2 = new Theme("Биология");
         Theme t3 = new Theme("Математика");
-        Grade g1 = new Grade(5, t1, LocalDate.now());
-        Grade g2 = new Grade(5, t2, LocalDate.now());
-        Grade g3 = new Grade(5, t3, LocalDate.now());
-        repository.put(s1, Arrays.asList(g1, g2, g3));
-        repository.put(s2, Arrays.asList(g1, g2, g3));
+        list.add(t1);
+        list.add(t2);
+        list.add(t3);
+        return list;
+    }
+
+    private int getRandomGrade() {
+        return (int) ((Math.random() * (6 - 3)) + 3);
     }
 
     public Grade getByDateAndTheme(Student s, LocalDate date, Theme theme) {
@@ -45,4 +105,16 @@ public class GradleRepository {
 
     }
 
+    public List<Grade> getGradesByStudentId(Integer id) {
+        Student s = repository.keySet()
+                .stream()
+                .filter(st -> st.getId().equals(id))
+                .findFirst()
+                .orElseThrow(RuntimeException::new);
+        return repository.get(s);
+    }
+
+    public Theme getTheme() {
+        return getThemes().get(0);
+    }
 }

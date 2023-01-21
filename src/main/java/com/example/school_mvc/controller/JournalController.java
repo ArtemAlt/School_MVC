@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("journal")
 public class JournalController {
-private final StudentService service;
-private final GradeService gradeService;
-private final ThemeService themeService;
-private final TimeService timeService;
+    private final StudentService service;
+    private final GradeService gradeService;
+    private final ThemeService themeService;
+    private final TimeService timeService;
 
     public JournalController(StudentService service, GradeService gradeService, ThemeService themeService, TimeService timeService) {
         this.service = service;
@@ -30,12 +30,11 @@ private final TimeService timeService;
 
     @GetMapping()
     public String viewJournal(@ModelAttribute(value = "selectedTheme") SelectTheme st,
-                              Model model){
-        model.addAttribute("studentList",service.getAll());
-        model.addAttribute("themeList",themeService.getAll());
+                              Model model) {
+        model.addAttribute("studentList", service.getAll());
+        model.addAttribute("themeList", themeService.getAll());
         model.addAttribute("currentDate", timeService.getDate());
-        System.out.println("Selected theme - "+st.getName());
-//        System.out.println("Date - "+sd.getDate().toString());
+        service.test();
         return "journal";
     }
 

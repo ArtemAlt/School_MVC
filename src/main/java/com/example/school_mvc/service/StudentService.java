@@ -45,4 +45,14 @@ public class StudentService {
     public void updateStudent(Student s) {
         repository.update(s);
     }
+
+
+    public void test() {
+        System.out.println("Theme: Student name + average grade" + repository.countAverageGradesV2());
+        System.out.println("All 3 - "+repository.findStudentWithAllGradesAboveThree(gradleRepository.getTheme()));
+        System.out.println("Student with 5 - "+repository.ifStudentInThemeWithLastGradeFive(gradleRepository.getTheme()));
+        System.out.println("Find like name - "+repository.findStudentBySeNameLike("5"));
+        System.out.println("Grouping themes and List student groups - "+repository.groupingByThemeSortedStudentNaturalOrderWithThreeStudent());
+        repository.testListToVararg();
+    }
 }

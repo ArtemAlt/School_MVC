@@ -1,6 +1,7 @@
 package com.example.school_mvc.entity;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Grade {
     private Integer value;
@@ -48,5 +49,18 @@ public class Grade {
                 ", theme=" + theme.getName() +
                 ", date=" + date.toString() +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Grade grade = (Grade) o;
+        return value.equals(grade.value) && theme.equals(grade.theme) && date.equals(grade.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(value, theme, date);
     }
 }
